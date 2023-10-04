@@ -17,6 +17,7 @@ import {
   EditIcon,
   AddIcon,
 } from '@gluestack-ui/themed';
+import { View } from '@gluestack-ui/themed';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack } from 'expo-router';
@@ -26,11 +27,14 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
-} from "react-native-gesture-handler";
-import DeviceDetailShared from "../../components/shared/DeviceDetailShared";
-import InteractiveChart from "./charts";
-import ChartCarousel from "./Carousel";
-import { ProgressCircle } from "react-native-svg-charts";
+} from 'react-native-gesture-handler';
+import DeviceDetailShared from '../../components/shared/DeviceDetailShared';
+// import InteractiveChart from './charts';
+import InteractiveChart from './AlternateChart';
+import ChartCarousel from './Carousel';
+import { ProgressCircle } from 'react-native-svg-charts';
+import SwipeCarousel from './SwipeCarousel';
+import { Dimensions } from 'react-native';
 export default function DashboardScreen() {
   const { signOutAction } = useContext(AuthContext);
   const [buttonType, setButtonType] = useState('Production Floor');
@@ -62,6 +66,14 @@ export default function DashboardScreen() {
     },
   ];
 
+  const data = [
+    { chartColor: COLORS.chartLinePink },
+    { chartColor: COLORS.chartLineBlue },
+    { chartColor: COLORS.chartLinePurple },
+    { chartColor: COLORS.chartLineRed },
+  ];
+
+  const DeviceWidth = Dimensions.get('window').width;
   return (
     <ScrollView style={{ backgroundColor: COLORS.background, flex: 1 }}>
       <Box mt={10}>
@@ -73,7 +85,7 @@ export default function DashboardScreen() {
             style={{ paddingHorizontal: 10 }}
             showsHorizontalScrollIndicator={false}
             horizontal
-            data={["Production Floor", "Warehouse", "Boiler Room"]}
+            data={['Production Floor', 'Warehouse', 'Boiler Room']}
             renderItem={({ item }) => (
               <Button
                 marginRight={12}
@@ -94,6 +106,7 @@ export default function DashboardScreen() {
             )}
           />
         </HStack>
+
         <LinearGradient
           style={{
             borderRadius: 10,
@@ -101,9 +114,9 @@ export default function DashboardScreen() {
             marginTop: 12,
             marginHorizontal: 10,
           }}
-          colors={["#F2F2F21A", "#BEB5B51A"]}
+          colors={['#F2F2F21A', '#BEB5B51A']}
         >
-          <Box margin={8}>
+          <Box>
             <HStack
               marginTop={22}
               marginHorizontal={8}
@@ -116,7 +129,13 @@ export default function DashboardScreen() {
                 <Text color={COLORS.green}>Show more</Text>
               </TouchableOpacity>
             </HStack>
-            <ChartCarousel />
+            <View style={{ width: '100%', height: 380 }}>
+              <SwipeCarousel />
+            </View>
+
+            {/* <SwipeCarousel /> */}
+            {/* <ChartCarousel /> */}
+            {/* <InteractiveChart chartColor={COLORS.chartLinePink} /> */}
           </Box>
         </LinearGradient>
         {/* ---- Sensors ---- */}
@@ -141,6 +160,7 @@ export default function DashboardScreen() {
           )}
         />
       </Box>
+
       <Box alignItems="center" marginBottom={16} marginTop={8}>
         {/* <TouchableOpacity> */}
         <LinearGradient
@@ -149,16 +169,16 @@ export default function DashboardScreen() {
             width: 200,
             paddingVertical: 4,
           }}
-          colors={["#F2F2F21A", "#BEB5B51A"]}
+          colors={['#F2F2F21A', '#BEB5B51A']}
         >
           <Button
             variant="outline"
             action="primary"
             borderWidth={0}
             sx={{
-              ":hover": {
+              ':hover': {
                 _text: {
-                  color: "red",
+                  color: 'red',
                 },
               },
             }}

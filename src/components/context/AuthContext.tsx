@@ -55,6 +55,7 @@ const authReducer = (state: any, action: any) => {
 };
 
 const AuthContextProvider: React.FC<any> = ({ children }) => {
+  
   const auth = getAuth(app);
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE);
   const router = useRouter();

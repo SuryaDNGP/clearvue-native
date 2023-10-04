@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router';
 const AuthAPIThunks = () => {
   const [userLogin, { isLoading, isError, isSuccess }] = useUserLoginMutation();
   
-
   const loginUser: any = async (formData: any) => {
     console.log('FormData', formData);
     try {

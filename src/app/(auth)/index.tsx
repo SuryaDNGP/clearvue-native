@@ -11,6 +11,8 @@ import {
   Image,
   HStack,
   VStack,
+  Pressable,
+  View,
 } from '@gluestack-ui/themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
@@ -19,7 +21,6 @@ import { AuthContext } from '../../components/context/AuthContext';
 import AuthAPIThunks from '../../store/thunks/authAPIThunks';
 
 import { Spinner } from '@gluestack-ui/themed';
-
 
 export default function TabOneScreen() {
   const { loginUserAction, isLogin, signUpAction, signInAction, isLoggedIn } =
@@ -145,11 +146,17 @@ export default function TabOneScreen() {
               name="password"
             />
             {errors.password && <Text>This is required.</Text>}
+
             <LinearGradient
               style={{ borderRadius: 6, marginTop: 20 }}
               colors={['#0C67B2', '#195688']}
             >
               <Button
+                sx={{
+                  ':hover': {
+                    bg: 'inherit',
+                  },
+                }}
                 height={48}
                 variant="outline"
                 style={{ borderColor: 'transparent' }}
@@ -158,11 +165,17 @@ export default function TabOneScreen() {
                 <ButtonText style={{ color: 'white' }}>LOGIN </ButtonText>
               </Button>
             </LinearGradient>
+
             <LinearGradient
               style={{ borderRadius: 6, marginTop: 4 }}
               colors={['#0C67B2', '#195688']}
             >
               <Button
+                sx={{
+                  ':hover': {
+                    bg: 'inherit',
+                  },
+                }}
                 height={48}
                 variant="outline"
                 style={{ borderColor: 'transparent' }}
