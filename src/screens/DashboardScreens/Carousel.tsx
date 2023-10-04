@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
-import InteractiveChart from "./charts";
+import React, { useRef, useState } from 'react';
+import InteractiveChart from './charts';
 
 import { Box, View, Text } from "@gluestack-ui/themed";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { COLORS } from "../../constants";
 import { ProgressCircle } from "react-native-svg-charts";
+import { Dimensions } from 'react-native';
 
 const Item = ({ item }: any) => {
   return (
@@ -42,21 +43,20 @@ const data = [
   { chartColor: COLORS.chartLinePurple, bgColor: "#9368FB66" },
   { chartColor: COLORS.chartLineRed, bgColor: "#F44C4566" },
 ];
-
 const ChartCarousel = () => {
   const isCarousel = useRef(null);
+  const width = Dimensions.get("window").width
   const [index, setIndex] = useState(0);
   return (
     <>
       <View>
         <Carousel
           layout="default"
-          layoutCardOffset={9}
           ref={isCarousel}
           data={data}
           renderItem={Item}
-          sliderWidth={400}
-          itemWidth={600}
+          sliderWidth={width}
+          itemWidth={width}
           inactiveSlideShift={0}
           useScrollView={true}
           onSnapToItem={(index) => setIndex(index)}
@@ -68,9 +68,10 @@ const ChartCarousel = () => {
           dotStyle={{
             width: 10,
             height: 10,
-            borderRadius: 5,
+            padding: 4,
+            borderRadius: 100,
             marginHorizontal: 0,
-            backgroundColor: "rgba(255, 255, 255, 0.92)",
+            backgroundColor: 'rgba(255, 255, 255, 0.92)',
           }}
           inactiveDotOpacity={0.4}
           inactiveDotScale={0.6}

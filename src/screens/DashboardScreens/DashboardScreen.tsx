@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
-import { StyleSheet } from "react-native";
+import React, { useEffect, useState, useContext } from 'react';
+import { StyleSheet } from 'react-native';
 import {
   Text,
   Box,
@@ -16,12 +16,12 @@ import {
   BadgeText,
   EditIcon,
   AddIcon,
-} from "@gluestack-ui/themed";
-import { LinearGradient } from "expo-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack } from "expo-router";
-import { AuthContext } from "../../components/context/AuthContext";
-import { COLORS } from "../../constants";
+} from '@gluestack-ui/themed';
+import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Stack } from 'expo-router';
+import { AuthContext } from '../../components/context/AuthContext';
+import { COLORS } from '../../constants';
 import {
   FlatList,
   ScrollView,
@@ -33,31 +33,31 @@ import ChartCarousel from "./Carousel";
 import { ProgressCircle } from "react-native-svg-charts";
 export default function DashboardScreen() {
   const { signOutAction } = useContext(AuthContext);
-  const [buttonType, setButtonType] = useState("Production Floor");
+  const [buttonType, setButtonType] = useState('Production Floor');
   const deviceList = [
     {
-      status: "active",
-      title: "S102",
+      status: 'active',
+      title: 'S102',
       data: {
-        temp: "24",
-        pressure: "1004",
-        humidity: "74",
-        light: "74",
+        temp: '24',
+        pressure: '1004',
+        humidity: '74',
+        light: '74',
       },
     },
     {
-      status: "inactive",
-      title: "S103",
+      status: 'inactive',
+      title: 'S103',
       data: {},
     },
     {
-      status: "active",
-      title: "S104",
+      status: 'active',
+      title: 'S104',
       data: {
-        temp: "24",
-        pressure: "1004",
-        humidity: "72",
-        light: "720",
+        temp: '24',
+        pressure: '1004',
+        humidity: '72',
+        light: '720',
       },
     },
   ];
