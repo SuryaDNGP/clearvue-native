@@ -3,14 +3,14 @@ import { Stack } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 
 import React, { useContext } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { AuthContext } from '../../components/context/AuthContext';
 import {
   DrawerContentScrollView,
   DrawerItem,
   DrawerItemList,
 } from '@react-navigation/drawer';
-
+import ErrorBoundary from 'react-native-error-boundary';
 const CustomDrawer = (props: any) => {
   const { signOutAction } = useContext(AuthContext);
   return (
@@ -28,14 +28,25 @@ const CustomDrawer = (props: any) => {
   );
 };
 
+export function FallBack(props: any) {
+  return (
+    <View>
+      <Text>Hello</Text>
+      <Text>{props.error.toString()}</Text>
+    </View>
+  );
+}
+
 const ScreensLayout = () => {
   return (
-    <>
+    <ErrorBoundary FallbackComponent={FallBack}>
       <Drawer
         initialRouteName="dashboard"
         screenOptions={({ navigation }) => ({
+          headerShadowVisible: false,
           headerStyle: {
             backgroundColor: '#000',
+            height: 100,
           },
           drawerStyle: {
             backgroundColor: '#000',
@@ -47,7 +58,7 @@ const ScreensLayout = () => {
           headerTitle: '',
           drawerPosition: 'right',
           headerLeft: () => (
-            <Box style={{ marginVertical: 15 }} ml={15}>
+            <Box ml={20}>
               <Text
                 sx={{
                   color: '#fff',
@@ -68,7 +79,7 @@ const ScreensLayout = () => {
           ),
           headerRight: () => (
             <TouchableOpacity onPress={navigation.toggleDrawer}>
-              <Avatar mr={15} bgColor="$amber600" size="md" borderRadius="$md">
+              <Avatar mr={20} bgColor="$amber600" size="md" borderRadius="$md">
                 <AvatarFallbackText>Surya D</AvatarFallbackText>
               </Avatar>
             </TouchableOpacity>
@@ -82,7 +93,7 @@ const ScreensLayout = () => {
         />
         <Drawer.Screen name="home" />
       </Drawer>
-    </>
+    </ErrorBoundary>
   );
 };
 

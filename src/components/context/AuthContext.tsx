@@ -4,7 +4,6 @@ import { err } from 'react-native-svg/lib/typescript/xml';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 
-
 export const AuthContext = createContext({} as any);
 import {
   getAuth,
@@ -55,7 +54,6 @@ const authReducer = (state: any, action: any) => {
 };
 
 const AuthContextProvider: React.FC<any> = ({ children }) => {
-  
   const auth = getAuth(app);
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE);
   const router = useRouter();

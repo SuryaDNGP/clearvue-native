@@ -6,3 +6,18 @@ export const CarouselGesture = () => {
   }
   return true;
 };
+
+export const AdaptSize = (size: number) => {
+  if (Platform.OS === 'web') {
+    return size * 2;
+  }
+  return size;
+};
+
+type CustomSizeType = (a: number, b: number) => number;
+export const CustomSize: CustomSizeType = (mobileSize, webSize) => {
+  if (Platform.OS === 'web') {
+    return webSize;
+  }
+  return mobileSize;
+};

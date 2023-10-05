@@ -20,17 +20,14 @@ import {
 } from '../../utils/sampleData';
 import { Platform } from 'react-native';
 import { COLORS } from '../../constants';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { CarouselGesture } from '../../utils/helpers';
+import { CarouselGesture, AdaptSize } from '../../utils/helpers';
+
 export default InteractiveChart;
 let DeviceWidth = Dimensions.get('window').width;
 
 function InteractiveChart({ chartColor }: any) {
-    
+  
   const apx = (size = 0) => {
     let width = Dimensions.get('window').width;
     return Platform.OS === 'web' ? size : (width / 750) * size;
@@ -101,16 +98,20 @@ function InteractiveChart({ chartColor }: any) {
           y={apx(70)}
         >
           {/* calculate left or right position of tooltip*/}
-          <SvgText x={apx(20)} fontFamily='Rubik' fontSize={apx(28)} fill="white">
+          <SvgText
+            x={apx(20)}
+            fontFamily="Rubik"
+            fontSize={apx(28)}
+            fill="white"
+          >
             {priceList[positionX]}&deg;C
           </SvgText>
           <SvgText
-
             x={apx(20)}
             y={apx(24 + 12)}
             fill="white"
             opacity={0.65}
-            fontFamily='Rubik'
+            fontFamily="Rubik"
             fontSize={apx(24)}
           >
             {date}
@@ -160,14 +161,13 @@ function InteractiveChart({ chartColor }: any) {
     <View
       style={{
         backgroundColor: 'transparent',
-        alignItems: 'stretch',
+        alignItems: 'stretch'
       }}
     >
       <View
         style={{
           flexDirection: 'row',
-          height: 200,
-          alignSelf: 'stretch',
+          height: AdaptSize(200),
         }}
       >
         <GestureDetector gesture={pan}>
@@ -181,14 +181,11 @@ function InteractiveChart({ chartColor }: any) {
               svg={{ fill: 'url(#gradient)' }}
             >
               <CustomLine />
-
               <CustomGradient />
-
               <Tooltip />
             </AreaChart>
 
             <XAxis
-            
               style={{
                 alignSelf: 'stretch',
                 minWidth: '100%',
@@ -205,7 +202,7 @@ function InteractiveChart({ chartColor }: any) {
                 // right: apx(130),
               }}
               svg={{
-                fontFamily:'Rubik',
+                fontFamily: 'Rubik',
                 fontSize: apx(20),
                 fill: '#617485',
                 y: apx(20),
