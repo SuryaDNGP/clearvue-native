@@ -151,6 +151,7 @@ export default function TabOneScreen() {
               name="password"
             />
             {errors.password && <Text>This is required.</Text>}
+
             <LinearGradient
               style={{ borderRadius: 6, marginTop: 20 }}
               colors={["#0C67B2", "#195688"]}
@@ -169,6 +170,7 @@ export default function TabOneScreen() {
                 <ButtonText style={{ color: "white" }}>LOGIN </ButtonText>
               </Button>
             </LinearGradient>
+
             <LinearGradient
               style={{ borderRadius: 6, marginTop: 4 }}
               colors={["#0C67B2", "#195688"]}

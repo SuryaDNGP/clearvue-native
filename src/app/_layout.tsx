@@ -1,13 +1,25 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { ErrorBoundaryProps, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { GluestackUIProvider } from "@gluestack-ui/themed";
+import { Drawer } from "expo-router/drawer";
+import {
+  Avatar,
+  AvatarFallbackText,
+  Box,
+  GluestackUIProvider,
+  Text,
+  Theme,
+  View
+} from "@gluestack-ui/themed";
 import { config } from "../../ gluestack-ui.config";
 
 import AuthContextProvider from "../../src/components/context/AuthContext";
 import { Provider } from "react-redux";
 import { store } from "../../src/store/store";
+import { registerRootComponent } from "expo";
+import { ExpoRoot } from "expo-router";
+// import ErrorBoundary from 'react-native-error-boundary';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -46,48 +58,28 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+export function FallBack(props: any) {
+  return (
+    <View>
+      <Text>Hello</Text>
+      <Text>{props.error.toString()}</Text>
+    </View>
+  );
+}
+
 function RootLayoutNav() {
   return (
     <GluestackUIProvider config={config}>
       <AuthContextProvider>
         <Provider store={store}>
-          <Stack initialRouteName="(auth)">
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack initialRouteName="(app)">
             <Stack.Screen
               name="(app)"
               options={{
                 headerShown: false
-                // headerTitle: "",
-                // headerStyle: {
-                //   backgroundColor: "#000"
-                // },
-                // headerLeft: () => (
-                //   <Box style={{ marginVertical: 15 }}>
-                //     <Text
-                //       sx={{
-                //         color: "#fff"
-                //       }}
-                //       size="md"
-                //     >
-                //       Hammersmith
-                //     </Text>
-                //     <Text
-                //       sx={{
-                //         color: "#B7B7B7"
-                //       }}
-                //       size="sm"
-                //     >
-                //       Tap to change your site
-                //     </Text>
-                //   </Box>
-                // ),
-                // headerRight: () => (
-                //   <Avatar bgColor="$amber600" size="md" borderRadius="$md">
-                //     <AvatarFallbackText>Surya D</AvatarFallbackText>
-                //   </Avatar>
-                // )
               }}
             />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           </Stack>
         </Provider>
       </AuthContextProvider>
