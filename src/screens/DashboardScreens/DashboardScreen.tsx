@@ -82,7 +82,6 @@ export default function DashboardScreen() {
               paddingVertical={6}
               paddingHorizontal={20}
               onPress={(e) => {
-                throw new Error('now item');
                 setButtonType(item);
               }}
               minWidth={160}

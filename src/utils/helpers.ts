@@ -1,4 +1,5 @@
 import { Platform } from 'react-native';
+import { useToast, Toast } from '@gluestack-ui/themed';
 
 export const CarouselGesture = () => {
   if (Platform.OS === 'web') {

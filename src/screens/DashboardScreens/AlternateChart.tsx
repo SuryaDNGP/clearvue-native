@@ -18,16 +18,16 @@ import {
   longSampleDateList,
   longSamplePriceList,
 } from '../../utils/sampleData';
-import { Platform } from 'react-native';
+
 import { COLORS } from '../../constants';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { CarouselGesture, AdaptSize } from '../../utils/helpers';
-
+import * as Haptics from 'expo-haptics';
+import { Vibration, Platform } from 'react-native';
 export default InteractiveChart;
 let DeviceWidth = Dimensions.get('window').width;
 
 function InteractiveChart({ chartColor }: any) {
-  
   const apx = (size = 0) => {
     let width = Dimensions.get('window').width;
     return Platform.OS === 'web' ? size : (width / 750) * size;
@@ -148,6 +148,11 @@ function InteractiveChart({ chartColor }: any) {
     .activateAfterLongPress(CarouselGesture() ? 500 : 0)
     .runOnJS(true)
     .onStart((e) => {
+      if (Platform.OS === 'android') {
+        // Vibration.vibrate();
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      }
+
       updatePosition(e.x);
       console.log(e.x, e.x, 'Begin');
       return true;
@@ -161,7 +166,7 @@ function InteractiveChart({ chartColor }: any) {
     <View
       style={{
         backgroundColor: 'transparent',
-        alignItems: 'stretch'
+        alignItems: 'stretch',
       }}
     >
       <View

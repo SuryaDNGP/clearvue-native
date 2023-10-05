@@ -11,6 +11,7 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import ErrorBoundary from 'react-native-error-boundary';
+
 const CustomDrawer = (props: any) => {
   const { signOutAction } = useContext(AuthContext);
   return (
