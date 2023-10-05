@@ -5,15 +5,39 @@ import { Drawer } from "expo-router/drawer";
 import React, { useContext } from "react";
 import { TouchableOpacity } from "react-native";
 import { AuthContext } from "../../components/context/AuthContext";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem
+} from "@react-navigation/drawer";
+
 const ScreensLayout = () => {
   const { signOutAction } = useContext(AuthContext);
+
+  function CustomDrawerContent(props: any) {
+    return (
+      <DrawerContentScrollView {...props}>
+        <DrawerItemList {...props} />
+        <DrawerItem
+          label="Logout"
+          labelStyle={{ color: "#fff" }}
+          onPress={() => signOutAction()}
+        />
+      </DrawerContentScrollView>
+    );
+  }
   return (
     <>
       <Drawer
+        initialRouteName="dashboard"
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
         screenOptions={({ navigation }) => ({
           headerStyle: {
-            backgroundColor: "#000"
+            backgroundColor: "#000",
+            height: 100
           },
+          headerShadowVisible: false,
           drawerStyle: {
             backgroundColor: "#000"
           },
@@ -56,7 +80,13 @@ const ScreensLayout = () => {
           name="dashboard"
           options={{ drawerLabel: "Dashboard" }}
         />
-        <Drawer.Screen name="home" options={{ drawerLabel: "Logout" }} />
+        <Drawer.Screen
+          name="home"
+          options={{
+            drawerLabel: "Logout"
+            // drawerItemStyle: { display: "none" }
+          }}
+        />
       </Drawer>
     </>
   );

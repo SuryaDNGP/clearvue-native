@@ -1,16 +1,40 @@
 import React from "react";
-import { Drawer } from "expo-router/drawer";
 import { DashboardScreen } from "../../screens";
-import { Stack } from "expo-router";
+import { BackHandler } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "expo-router";
 
 export default function Dashboard() {
+  let exitCount = 0;
+  const route = useRoute();
+  const navi = useNavigation();
+
+  function backHandle(): boolean {
+    setTimeout(() => {
+      exitCount = 0;
+    }, 2000);
+    if (exitCount === 0) {
+      exitCount = 1;
+      // ToastAndroid.showWithGravity(
+      //   "Press back again to exit",
+      //   ToastAndroid.SHORT,
+      //   ToastAndroid.BOTTOM
+      // );
+    } else if (exitCount == 1) {
+      BackHandler.exitApp();
+    }
+    return true;
+  }
+
+  useFocusEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backHandle);
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", backHandle);
+    };
+  });
+
   return (
     <>
-      <Stack.Screen
-      // options={{
-      //   headerShown: false
-      // }}
-      />
       <DashboardScreen />
     </>
   );

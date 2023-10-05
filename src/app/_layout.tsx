@@ -2,22 +2,12 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { Drawer } from "expo-router/drawer";
-import {
-  Avatar,
-  AvatarFallbackText,
-  Box,
-  GluestackUIProvider,
-  Text,
-  Theme
-} from "@gluestack-ui/themed";
+import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "../../ gluestack-ui.config";
 
 import AuthContextProvider from "../../src/components/context/AuthContext";
 import { Provider } from "react-redux";
 import { store } from "../../src/store/store";
-import { registerRootComponent } from "expo";
-import { ExpoRoot } from "expo-router";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -98,7 +88,6 @@ function RootLayoutNav() {
                 // )
               }}
             />
-            <Stack.Screen name="home" options={{ headerShown: false }} />
           </Stack>
         </Provider>
       </AuthContextProvider>

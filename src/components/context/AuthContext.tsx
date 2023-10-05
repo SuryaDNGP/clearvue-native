@@ -1,9 +1,8 @@
-import React, { createContext, useEffect, useReducer, useState } from 'react';
-import axios from 'axios';
-import { err } from 'react-native-svg/lib/typescript/xml';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from 'expo-router';
-
+import React, { createContext, useEffect, useReducer, useState } from "react";
+import axios from "axios";
+import { err } from "react-native-svg/lib/typescript/xml";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export const AuthContext = createContext({} as any);
 import {
@@ -11,45 +10,45 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut,
-} from 'firebase/auth';
-import app from '../../utils/config/firebase';
+  signOut
+} from "firebase/auth";
+import app from "../../utils/config/firebase";
 const INITIAL_STATE = {
   error: null,
   loading: false,
-  userAuth: '',
+  userAuth: ""
 };
 
 const authReducer = (state: any, action: any) => {
   const { type, payload } = action;
   switch (type) {
-    case 'REGISTER_SUCCESS':
+    case "REGISTER_SUCCESS":
       return {
         ...state,
         error: null,
         loading: false,
-        userAuth: payload,
+        userAuth: payload
       };
-    case 'REGISTER_FAILED':
+    case "REGISTER_FAILED":
       return {
         ...state,
         error: payload,
         loading: false,
-        userAuth: null,
+        userAuth: null
       };
-    case 'LOGIN_SUCCESS':
+    case "LOGIN_SUCCESS":
       return {
         ...state,
         error: null,
         loading: false,
-        userAuth: payload,
+        userAuth: payload
       };
-    case 'LOGIN_FAILED':
+    case "LOGIN_FAILED":
       return {
         ...state,
         error: payload,
         loading: false,
-        userAuth: null,
+        userAuth: null
       };
   }
 };
@@ -58,11 +57,13 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
   const auth = getAuth(app);
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const isLoggedIn = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        router.replace('/dashboard');
+        router.replace("/dashboard");
+        setLoading(false);
       }
     });
   };
@@ -76,11 +77,11 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
         formData.email,
         formData.password
       );
-      console.log('Registered', res.user);
-      dispatch({ type: 'REGISTER_SUCCESS', payload: res.user });
+      console.log("Registered", res.user);
+      dispatch({ type: "REGISTER_SUCCESS", payload: res.user });
     } catch (error) {
-      console.log('reGISTER FAiled', error);
-      dispatch({ type: 'REGISTER_FAILED', payload: error });
+      console.log("reGISTER FAiled", error);
+      dispatch({ type: "REGISTER_FAILED", payload: error });
     }
   };
 
@@ -91,59 +92,62 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
         formData.email,
         formData.password
       );
-      console.log('Signed In', res.user);
-      dispatch({ type: 'LOGIN_SUCCESS', payload: res.user });
+      console.log("Signed In", res.user);
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.user });
     } catch (error) {
-      console.log('Sign In Failed', error);
-      dispatch({ type: 'LOGIN_FAILED', payload: error });
+      console.log("Sign In Failed", error);
+      dispatch({ type: "LOGIN_FAILED", payload: error });
+      setLoading(false);
     }
   };
 
   const signOutAction = async () => {
     try {
       await signOut(auth);
-      router.replace('/(auth)');
+      router.replace("/(auth)");
     } catch (error) {
-      console.log('Signing out error', error);
+      console.log("Signing out error", error);
     }
   };
 
   const loginUserAction = async (formData: any) => {
     const config = {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json"
+      }
     };
-    console.log('FormData', formData);
+    console.log("FormData", formData);
 
     try {
       const res = await axios.post(
-        'http://192.168.155.208:3333/api/v1/users/login',
+        "http://192.168.155.208:3333/api/v1/users/login",
         formData
       );
       if (res.data) {
-        console.log('Logged In');
+        console.log("Logged In");
         console.log(res.data);
-        AsyncStorage.setItem('userToken', JSON.stringify(res.data));
-        router.replace('/home');
-        dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
+        AsyncStorage.setItem("userToken", JSON.stringify(res.data));
+        router.replace("/home");
+        dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
       }
     } catch (error) {
-      console.log('Login Error', error);
-      dispatch({ type: 'LOGIN_FAILED', payload: error });
+      console.log("Login Error", error);
+      dispatch({ type: "LOGIN_FAILED", payload: error });
     }
   };
 
   return (
     <AuthContext.Provider
       value={{
+        setLoading,
+        loading,
         loginUserAction,
         signUpAction,
         signInAction,
         userAuth: state,
         isLoggedIn,
-        signOutAction,
+        signOutAction
       }}
     >
       {children}
