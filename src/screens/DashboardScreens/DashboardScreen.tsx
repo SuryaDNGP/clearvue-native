@@ -8,12 +8,12 @@ import {
   HStack,
   AddIcon,
   FlatList,
-  ScrollView,
   ToastTitle,
   ToastDescription,
   VStack,
   useToast,
-  Toast
+  Toast,
+  ScrollView
 } from "@gluestack-ui/themed";
 import { View } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
@@ -24,6 +24,7 @@ import { AdaptSize, CustomSize } from "../../utils/helpers";
 import DeviceDetailShared from "../../components/shared/DeviceDetailShared";
 import SwipeCarousel from "./SwipeCarousel";
 import { Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function DashboardScreen() {
   const [buttonType, setButtonType] = useState("Production Floor");
@@ -177,6 +178,30 @@ export default function DashboardScreen() {
                     color: "red"
                   }
                 }
+              }}
+              onPress={() => {
+                toast.show({
+                  placement: "top",
+                  render: ({ id }) => {
+                    return (
+                      <SafeAreaView>
+                        <Toast
+                          nativeID={String(id)}
+                          action="attention"
+                          variant="solid"
+                        >
+                          <VStack space="xs">
+                            <ToastTitle>New Message</ToastTitle>
+                            <ToastDescription>
+                              Hey, just wanted to touch base and see how you're
+                              doing. Let's catch up soon!
+                            </ToastDescription>
+                          </VStack>
+                        </Toast>
+                      </SafeAreaView>
+                    );
+                  }
+                });
               }}
             >
               <ButtonIcon color="white" as={AddIcon} mr="$2" />
