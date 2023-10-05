@@ -1,45 +1,75 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from "react";
 // import InteractiveChart from './charts';
-import InteractiveChart from './AlternateChart';
-import { COLORS } from '../../constants';
-import { Dimensions } from 'react-native';
-import Swiper from 'react-native-web-swiper';
-import { Platform } from 'react-native';
-import { TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { CarouselGesture } from '../../utils/helpers';
-import { Box } from '@gluestack-ui/themed';
-import { ProgressCircle } from 'react-native-svg-charts';
-import { Text, View } from '@gluestack-ui/themed';
+import InteractiveChart from "./AlternateChart";
+import { COLORS } from "../../constants";
+import { Dimensions } from "react-native";
+import Swiper from "react-native-web-swiper";
+import { Platform } from "react-native";
+import { TouchableOpacity, StyleSheet, Image } from "react-native";
+import { CarouselGesture } from "../../utils/helpers";
+import { Box } from "@gluestack-ui/themed";
+import { ProgressCircle } from "react-native-svg-charts";
+import { Text, View } from "@gluestack-ui/themed";
+import Animated, {
+  FadingTransition,
+  FadeIn,
+  useSharedValue,
+  combineTransition,
+  FadeOut,
+  useAnimatedScrollHandler,
+  withSequence,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
+
 // const Item = ({ item }: any) => {
 //   return <InteractiveChart chartColor={item.chartColor} />;
 // };
 
 const data = [
-  { chartColor: COLORS.chartLinePink, bgColor: '#b91e7a66' },
-  { chartColor: COLORS.chartLineBlue, bgColor: '#0C66B166' },
-  { chartColor: COLORS.chartLinePurple, bgColor: '#9368FB66' },
-  { chartColor: COLORS.chartLineRed, bgColor: '#F44C4566' },
+  { chartColor: COLORS.chartLinePink, bgColor: "#b91e7a66" },
+  { chartColor: COLORS.chartLineBlue, bgColor: "#0C66B166" },
+  { chartColor: COLORS.chartLinePurple, bgColor: "#9368FB66" },
+  { chartColor: COLORS.chartLineRed, bgColor: "#F44C4566" },
 ];
 // const DeviceWidth = Dimensions.get('window').width;
+const AnimatedSwiper = Animated.createAnimatedComponent(View);
 
 const SwipeCarousel = () => {
+  const swiperRef = useRef(null);
+  const opacity = useSharedValue(0);
+  const handleScroll = () => {
+    opacity.value = withSequence(
+      withTiming(0),
+      withTiming(1, {
+        duration: 2000,
+        easing: Easing.out(Easing.cubic),
+      })
+    );
+  };
+  const handleEnd = () => {
+    opacity.value = withTiming(1);
+  };
+
   return (
-    <View style={{ flex: 1 }}>
+    <Animated.View style={{ flex: 1 }}>
       <Swiper
+        onAnimationStart={handleScroll}
+        springConfig={{ bounciness: 0 }}
         gesturesEnabled={CarouselGesture}
-        from={1}
+        from={0}
         minDistanceForAction={0.1}
         controlsProps={{
           prevPos: false,
           nextPos: false,
           dotsTouchable: true,
-          dotsPos: 'bottom',
+          dotsPos: "bottom",
           dotActiveStyle: { backgroundColor: COLORS.grey },
         }}
       >
         {data.map((item, index) => (
-          <View style={styles.slide}>
-            <Box flexDirection="row" mt={20}>
+          <Animated.View  style={{ opacity: opacity}}  >
+            <Box flexDirection="row" ml={20} mt={20}>
               <Box position="relative">
                 <ProgressCircle
                   style={{ height: 100, width: 100 }}
@@ -62,10 +92,10 @@ const SwipeCarousel = () => {
               </Box>
             </Box>
             <InteractiveChart chartColor={item.chartColor} />
-          </View>
+          </Animated.View>
         ))}
       </Swiper>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -84,9 +114,9 @@ const styles = StyleSheet.create({
   slide2: {},
   slide3: {},
   text: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   img: {
     width: 310,

@@ -101,14 +101,16 @@ function InteractiveChart({ chartColor }: any) {
           y={apx(70)}
         >
           {/* calculate left or right position of tooltip*/}
-          <SvgText x={apx(20)} fontSize={apx(28)} fill="white">
+          <SvgText x={apx(20)} fontFamily='Rubik' fontSize={apx(28)} fill="white">
             {priceList[positionX]}&deg;C
           </SvgText>
           <SvgText
+
             x={apx(20)}
             y={apx(24 + 12)}
             fill="white"
             opacity={0.65}
+            fontFamily='Rubik'
             fontSize={apx(24)}
           >
             {date}
@@ -186,6 +188,7 @@ function InteractiveChart({ chartColor }: any) {
             </AreaChart>
 
             <XAxis
+            
               style={{
                 alignSelf: 'stretch',
                 minWidth: '100%',
@@ -202,6 +205,7 @@ function InteractiveChart({ chartColor }: any) {
                 // right: apx(130),
               }}
               svg={{
+                fontFamily:'Rubik',
                 fontSize: apx(20),
                 fill: '#617485',
                 y: apx(20),
