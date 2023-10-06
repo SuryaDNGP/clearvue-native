@@ -14,19 +14,6 @@ import ErrorBoundary from "react-native-error-boundary";
 
 const CustomDrawer = (props: any) => {
   const { signOutAction } = useContext(AuthContext);
-
-  function CustomDrawerContent(props: any) {
-    return (
-      <DrawerContentScrollView {...props}>
-        <DrawerItemList {...props} />
-        <DrawerItem
-          label="Logout"
-          labelStyle={{ color: "#fff" }}
-          onPress={() => signOutAction()}
-        />
-      </DrawerContentScrollView>
-    );
-  }
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />

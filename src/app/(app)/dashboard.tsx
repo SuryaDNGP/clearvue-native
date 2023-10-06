@@ -3,6 +3,7 @@ import { DashboardScreen } from "../../screens";
 import { BackHandler } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useFocusEffect, useNavigation } from "expo-router";
+import { Box } from "@gluestack-ui/themed";
 
 export default function Dashboard() {
   let exitCount = 0;

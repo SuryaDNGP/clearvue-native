@@ -122,7 +122,16 @@ export default function DashboardScreen() {
                   Activity
                 </Text>
                 <TouchableOpacity>
-                  <Text color={COLORS.green}>Show more</Text>
+                  <Text
+                    sx={{
+                      _web: {
+                        cursor: "pointer"
+                      }
+                    }}
+                    color={COLORS.green}
+                  >
+                    Show more
+                  </Text>
                 </TouchableOpacity>
               </HStack>
               <View
@@ -146,7 +155,16 @@ export default function DashboardScreen() {
               Sensors
             </Text>
             <TouchableOpacity>
-              <Text color={COLORS.green}>Show more</Text>
+              <Text
+                sx={{
+                  _web: {
+                    cursor: "pointer"
+                  }
+                }}
+                color={COLORS.green}
+              >
+                Show more
+              </Text>
             </TouchableOpacity>
           </HStack>
           <FlatList
@@ -163,20 +181,18 @@ export default function DashboardScreen() {
           <LinearGradient
             style={{
               borderRadius: 10,
-              width: 200,
-              paddingVertical: 4
+              width: 200
             }}
             colors={["#F2F2F21A", "#BEB5B51A"]}
           >
             <Button
+              py={8}
               variant="outline"
               action="primary"
               borderWidth={0}
               sx={{
                 ":hover": {
-                  _text: {
-                    color: "red"
-                  }
+                  bg: "transparent"
                 }
               }}
               onPress={() => {

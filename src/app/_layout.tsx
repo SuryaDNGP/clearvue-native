@@ -72,7 +72,14 @@ function RootLayoutNav() {
     <GluestackUIProvider config={config}>
       <AuthContextProvider>
         <Provider store={store}>
-          <Stack initialRouteName="(app)">
+          <Stack
+            initialRouteName="(app)"
+            screenOptions={{
+              contentStyle: {
+                overflow: "hidden"
+              }
+            }}
+          >
             <Stack.Screen
               name="(app)"
               options={{
