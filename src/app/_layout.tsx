@@ -18,7 +18,9 @@ import AuthContextProvider from "../../src/components/context/AuthContext";
 import { Provider } from "react-redux";
 import { store } from "../../src/store/store";
 import { registerRootComponent } from "expo";
+import Toast from "react-native-toast-message";
 import { ExpoRoot } from "expo-router";
+import { toastConfig } from "../utils/config/toaster.config";
 // import ErrorBoundary from 'react-native-error-boundary';
 
 export {
@@ -90,6 +92,7 @@ function RootLayoutNav() {
           </Stack>
         </Provider>
       </AuthContextProvider>
+      <Toast config={toastConfig} />
     </GluestackUIProvider>
   );
 }

@@ -13,6 +13,7 @@ import {
   signOut
 } from "firebase/auth";
 import app from "../../utils/config/firebase";
+import { showToast } from "../shared/Toaster";
 const INITIAL_STATE = {
   error: null,
   loading: false,
@@ -64,6 +65,7 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
       if (user) {
         router.replace("/dashboard");
         setLoading(false);
+        showToast("success", "Logged in !!");
       }
     });
   };

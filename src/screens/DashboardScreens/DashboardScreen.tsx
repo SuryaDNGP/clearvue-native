@@ -8,11 +8,6 @@ import {
   HStack,
   AddIcon,
   FlatList,
-  ToastTitle,
-  ToastDescription,
-  VStack,
-  useToast,
-  Toast,
   ScrollView
 } from "@gluestack-ui/themed";
 import { View } from "@gluestack-ui/themed";
@@ -23,12 +18,11 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { AdaptSize, CustomSize } from "../../utils/helpers";
 import DeviceDetailShared from "../../components/shared/DeviceDetailShared";
 import SwipeCarousel from "./SwipeCarousel";
-import { Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Dimensions, Platform, StyleSheet } from "react-native";
+import { showToast } from "../../components/shared/Toaster";
 
 export default function DashboardScreen() {
   const [buttonType, setButtonType] = useState("Production Floor");
-  const toast = useToast();
   const deviceList = [
     {
       status: "active",
@@ -70,8 +64,6 @@ export default function DashboardScreen() {
       <HStack marginTop={20} mb={5}>
         <FlatList
           contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: "center",
             marginBottom: 10
           }}
           style={{ paddingHorizontal: 10 }}
@@ -99,7 +91,7 @@ export default function DashboardScreen() {
         />
       </HStack>
 
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={true}>
         <Box mt={10}>
           {/* ---- Badges ---- */}
 
@@ -196,28 +188,7 @@ export default function DashboardScreen() {
                 }
               }}
               onPress={() => {
-                toast.show({
-                  placement: "top",
-                  render: ({ id }) => {
-                    return (
-                      <SafeAreaView>
-                        <Toast
-                          nativeID={String(id)}
-                          action="attention"
-                          variant="solid"
-                        >
-                          <VStack space="xs">
-                            <ToastTitle>New Message</ToastTitle>
-                            <ToastDescription>
-                              Hey, just wanted to touch base and see how you're
-                              doing. Let's catch up soon!
-                            </ToastDescription>
-                          </VStack>
-                        </Toast>
-                      </SafeAreaView>
-                    );
-                  }
-                });
+                showToast("success", "Device added");
               }}
             >
               <ButtonIcon color="white" as={AddIcon} mr="$2" />
@@ -238,3 +209,5 @@ export default function DashboardScreen() {
     </Box>
   );
 }
+
+const styles = StyleSheet.create({});
