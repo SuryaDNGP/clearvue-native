@@ -1,10 +1,12 @@
-import { configureStore, } from '@reduxjs/toolkit';
-import { authAPI } from './services/authAPI';
-
+import { configureStore } from "@reduxjs/toolkit";
+import { authAPI } from "./services/authAPI";
+import { fbAuthApi } from "./services/fbAuthAPI";
 export const store = configureStore({
   reducer: {
-    [authAPI.reducerPath]: authAPI.reducer,
+    [fbAuthApi.reducerPath]: fbAuthApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authAPI.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(
+      fbAuthApi.middleware
+    ),
 });

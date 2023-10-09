@@ -1,5 +1,5 @@
 import { Box, Text, Avatar, AvatarFallbackText } from "@gluestack-ui/themed";
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 
 import React, { useContext } from "react";
@@ -8,9 +8,10 @@ import { AuthContext } from "../../components/context/AuthContext";
 import {
   DrawerContentScrollView,
   DrawerItem,
-  DrawerItemList
+  DrawerItemList,
 } from "@react-navigation/drawer";
 import ErrorBoundary from "react-native-error-boundary";
+import { useAuth } from "../../hooks/useAuth";
 
 const CustomDrawer = (props: any) => {
   const { signOutAction } = useContext(AuthContext);
@@ -19,7 +20,7 @@ const CustomDrawer = (props: any) => {
       <DrawerItemList {...props} />
       <DrawerItem
         labelStyle={{ color: "white" }}
-        label="Logout"
+        label='Logout'
         onPress={() => {
           signOutAction();
         }}
@@ -38,21 +39,24 @@ export function FallBack(props: any) {
 }
 
 const ScreensLayout = () => {
+  const { user } = useAuth();
+  console.log("available user", user);
+
   return (
     <ErrorBoundary FallbackComponent={FallBack}>
       <Drawer
-        initialRouteName="dashboard"
+        initialRouteName='dashboard'
         screenOptions={({ navigation }) => ({
           headerShadowVisible: false,
           headerStyle: {
             backgroundColor: "#000",
-            height: 100
+            height: 100,
           },
           drawerStyle: {
-            backgroundColor: "#000"
+            backgroundColor: "#000",
           },
           drawerLabelStyle: {
-            color: "#fff"
+            color: "#fff",
           },
           drawerActiveBackgroundColor: "#98989837",
           headerTitle: "",
@@ -61,17 +65,17 @@ const ScreensLayout = () => {
             <Box ml={20}>
               <Text
                 sx={{
-                  color: "#fff"
+                  color: "#fff",
                 }}
-                size="md"
+                size='md'
               >
                 Hammersmith
               </Text>
               <Text
                 sx={{
-                  color: "#B7B7B7"
+                  color: "#B7B7B7",
                 }}
-                size="sm"
+                size='sm'
               >
                 Tap to change your site
               </Text>
@@ -79,19 +83,19 @@ const ScreensLayout = () => {
           ),
           headerRight: () => (
             <TouchableOpacity onPress={navigation.toggleDrawer}>
-              <Avatar mr={20} bgColor="$amber600" size="md" borderRadius="$md">
+              <Avatar mr={20} bgColor='$amber600' size='md' borderRadius='$md'>
                 <AvatarFallbackText>Surya D</AvatarFallbackText>
               </Avatar>
             </TouchableOpacity>
-          )
+          ),
         })}
         drawerContent={(props) => <CustomDrawer {...props} />}
       >
         <Drawer.Screen
-          name="dashboard"
+          name='dashboard'
           options={{ drawerLabel: "Dashboard" }}
         />
-        <Drawer.Screen name="home" />
+        <Drawer.Screen name='home' />
       </Drawer>
     </ErrorBoundary>
   );
