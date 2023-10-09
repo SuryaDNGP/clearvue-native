@@ -8,8 +8,8 @@ export const authAPI = createApi({
   endpoints: (builder) => ({
     userLogin: builder.mutation({
       query: (payload) => {
-        console.log("payload", payload);
-        
+        console.log('payload', payload);
+
         return {
           url: '/login',
           method: 'POST',
@@ -19,8 +19,7 @@ export const authAPI = createApi({
     }),
     userRegister: builder.mutation({
       query: (payload) => {
-        console.log("payload", payload);
-        
+        console.log('payload', payload);
         return {
           url: '/login',
           method: 'POST',

@@ -1,7 +1,7 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { ErrorBoundaryProps, SplashScreen, Stack } from "expo-router";
-import { useEffect } from "react";
+import { ErrorBoundaryProps, SplashScreen, Stack, router } from "expo-router";
+import { useEffect, useState } from "react";
 import { Drawer } from "expo-router/drawer";
 import {
   Avatar,
@@ -13,14 +13,14 @@ import {
   View
 } from "@gluestack-ui/themed";
 import { config } from "../../ gluestack-ui.config";
-import { useAuth } from "../hooks/useAuth";
 import AuthContextProvider from "../../src/components/context/AuthContext";
 import { Provider } from "react-redux";
 import { store } from "../../src/store/store";
-import { registerRootComponent } from "expo";
 import Toast from "react-native-toast-message";
-import { ExpoRoot } from "expo-router";
 import { toastConfig } from "../utils/config/toaster.config";
+import { User, getAuth, onAuthStateChanged } from "firebase/auth";
+import app from "../utils/config/firebase";
+import { showToast } from "../components/shared/Toaster";
 // import ErrorBoundary from 'react-native-error-boundary';
 
 export {
@@ -60,18 +60,19 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-export function FallBack(props: any) {
-  return (
-    <View>
-      <Text>Hello</Text>
-      <Text>{props.error.toString()}</Text>
-    </View>
-  );
-}
-
 function RootLayoutNav() {
-  // const { user } = useAuth();
-
+  const [user, setUser] = useState<User | null>(null);
+  const auth = getAuth(app);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      console.log("Root user", user);
+      setUser(user);
+      if (user) {
+        router.replace("/dashboard");
+        showToast("success", "Logged in !!");
+      }
+    });
+  }, []);
   return (
     <GluestackUIProvider config={config}>
       <AuthContextProvider>
@@ -84,11 +85,16 @@ function RootLayoutNav() {
               headerShown: false
             }}
           >
-            {/* {user ? ( */}
-            <Stack.Screen name="(app)" />
-            {/* ) : ( */}
-            <Stack.Screen name="(auth)" />
-            {/* )} */}
+            {user ? (
+              <Stack.Screen
+                name="(app)"
+                options={{
+                  headerShown: false
+                }}
+              />
+            ) : (
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            )}
           </Stack>
         </Provider>
       </AuthContextProvider>

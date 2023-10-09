@@ -64,7 +64,8 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
       console.log(user);
 
       if (user) {
-        // router.replace("/dashboard");
+        router.replace("/dashboard");
+        setLoading(false);
         showToast("success", "Logged in !!");
       }
     });

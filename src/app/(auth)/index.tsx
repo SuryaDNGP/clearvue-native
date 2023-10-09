@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { Stack } from "expo-router";
 import {
   Text,
   Box,
@@ -15,21 +13,14 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useForm, Controller } from "react-hook-form";
 import { LinearGradient } from "expo-linear-gradient";
-import { AuthContext } from "../../components/context/AuthContext";
-import AuthAPIThunks from "../../store/thunks/authAPIThunks";
-
-import { loadPartialConfig } from "@babel/core";
-import { COLORS } from "../../constants";
 import Spinner from "react-native-loading-spinner-overlay";
-import { useFirebaseLoginMutation } from "../../store/services/fbAuthAPI";
-
+import {
+  useFirebaseLoginMutation,
+  useFirebaseRegisterMutation
+} from "../../store/services/fbAuthAPI";
 export default function TabOneScreen() {
-  const [firebaseLogin, { data, isLoading, isSuccess, isError }] =
-    useFirebaseLoginMutation();
-  const { loginUserAction, isLogin, signUpAction, signInAction, isLoggedIn } =
-    useContext(AuthContext);
-
-  // const { loginUser, isLoading } = AuthAPIThunks();
+  const [firebaseLogin, data, isLoading, error] = useFirebaseLoginMutation();
+  const [firebaseRegister] = useFirebaseRegisterMutation();
 
   const {
     control,
@@ -56,11 +47,9 @@ export default function TabOneScreen() {
     // signInAction(data).then(() => {
     //   isLoggedIn();
     // });
-    firebaseLogin(data).then(() => {
-      console.log("load:", isError);
-
-      isLoggedIn();
-    });
+    // console.log('1.', currentUser);
+    await firebaseLogin(data);
+    // setLoading(true);
   };
   console.log("new:", data);
 
@@ -68,6 +57,7 @@ export default function TabOneScreen() {
     // signUpAction(data);
     firebaseLogin(data);
   };
+
   return (
     <SafeAreaView
       style={{
