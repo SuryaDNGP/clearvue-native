@@ -10,14 +10,14 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut,
+  signOut
 } from "firebase/auth";
 import app from "../../utils/config/firebase";
 import { showToast } from "../shared/Toaster";
 const INITIAL_STATE = {
   error: null,
   loading: false,
-  userAuth: "",
+  userAuth: ""
 };
 
 const authReducer = (state: any, action: any) => {
@@ -28,28 +28,28 @@ const authReducer = (state: any, action: any) => {
         ...state,
         error: null,
         loading: false,
-        userAuth: payload,
+        userAuth: payload
       };
     case "REGISTER_FAILED":
       return {
         ...state,
         error: payload,
         loading: false,
-        userAuth: null,
+        userAuth: null
       };
     case "LOGIN_SUCCESS":
       return {
         ...state,
         error: null,
         loading: false,
-        userAuth: payload,
+        userAuth: payload
       };
     case "LOGIN_FAILED":
       return {
         ...state,
         error: payload,
         loading: false,
-        userAuth: null,
+        userAuth: null
       };
   }
 };
@@ -58,15 +58,13 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
   const auth = getAuth(app);
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE);
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
   const isLoggedIn = () => {
     onAuthStateChanged(auth, (user) => {
       console.log(user);
 
       if (user) {
-        router.replace("/dashboard");
-        setLoading(false);
+        // router.replace("/dashboard");
         showToast("success", "Logged in !!");
       }
     });
@@ -118,8 +116,8 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
     const config = {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Accept: "application/json",
-      },
+        Accept: "application/json"
+      }
     };
     console.log("FormData", formData);
 
@@ -144,14 +142,12 @@ const AuthContextProvider: React.FC<any> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        setLoading,
-        loading,
         loginUserAction,
         signUpAction,
         signInAction,
         userAuth: state,
         isLoggedIn,
-        signOutAction,
+        signOutAction
       }}
     >
       {children}

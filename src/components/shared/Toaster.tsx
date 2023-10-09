@@ -1,9 +1,12 @@
 import Toast from "react-native-toast-message";
 
-export function showToast(type: string, text: string) {
+export function showToast(type: string, text: string, position: string) {
+  console.log(position);
+
   Toast.show({
     type: type,
-    text1: text
+    text1: text,
+    position: position
   });
 }
 

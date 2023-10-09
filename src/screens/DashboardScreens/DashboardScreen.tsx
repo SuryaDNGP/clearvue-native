@@ -162,9 +162,7 @@ export default function DashboardScreen() {
           <FlatList
             style={{ marginTop: 12 }}
             data={deviceList}
-            renderItem={({ item }) => (
-              <DeviceDetailShared device={item} title="S102" status="active" />
-            )}
+            renderItem={({ item }) => <DeviceDetailShared device={item} />}
           />
         </Box>
 
@@ -188,7 +186,11 @@ export default function DashboardScreen() {
                 }
               }}
               onPress={() => {
-                showToast("success", "Device added");
+                showToast(
+                  "success",
+                  "Device added",
+                  Platform.OS === "web" ? "top" : "bottom"
+                );
               }}
             >
               <ButtonIcon color="white" as={AddIcon} mr="$2" />

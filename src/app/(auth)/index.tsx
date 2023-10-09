@@ -10,7 +10,7 @@ import {
   ButtonText,
   Image,
   HStack,
-  VStack,
+  VStack
 } from "@gluestack-ui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useForm, Controller } from "react-hook-form";
@@ -22,31 +22,26 @@ import { loadPartialConfig } from "@babel/core";
 import { COLORS } from "../../constants";
 import Spinner from "react-native-loading-spinner-overlay";
 import { useFirebaseLoginMutation } from "../../store/services/fbAuthAPI";
-export default function TabOneScreen() {
-  const [firebaseLogin] = useFirebaseLoginMutation();
-  const {
-    loginUserAction,
-    isLogin,
-    signUpAction,
-    signInAction,
-    isLoggedIn,
-    loading,
-    setLoading,
-  } = useContext(AuthContext);
 
-  const { loginUser, isLoading } = AuthAPIThunks();
+export default function TabOneScreen() {
+  const [firebaseLogin, { data, isLoading, isSuccess, isError }] =
+    useFirebaseLoginMutation();
+  const { loginUserAction, isLogin, signUpAction, signInAction, isLoggedIn } =
+    useContext(AuthContext);
+
+  // const { loginUser, isLoading } = AuthAPIThunks();
 
   const {
     control,
     handleSubmit,
     reset,
     formState,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful }
   } = useForm({
     defaultValues: {
       email: "",
-      password: "",
-    },
+      password: ""
+    }
   });
 
   useEffect(() => {
@@ -61,12 +56,13 @@ export default function TabOneScreen() {
     // signInAction(data).then(() => {
     //   isLoggedIn();
     // });
-    firebaseLogin(data).then(()=>{
-      isLoggedIn()
-    })
+    firebaseLogin(data).then(() => {
+      console.log("load:", isError);
 
-    setLoading(true);
+      isLoggedIn();
+    });
   };
+  console.log("new:", data);
 
   const handleSignUp = (data: any) => {
     // signUpAction(data);
@@ -76,25 +72,25 @@ export default function TabOneScreen() {
     <SafeAreaView
       style={{
         backgroundColor: "#000",
-        flex: 1,
+        flex: 1
       }}
     >
-      {loading && <Spinner visible={loading} size={50} />}
-      <Box height='$full' margin={24} justifyContent='space-between'>
+      {isLoading && <Spinner visible={isLoading} size={50} />}
+      <Box height="$full" margin={24} justifyContent="space-between">
         <Box marginTop={130}>
           <HStack style={{ justifyContent: "center", marginBottom: 50 }}>
             <Image
               height={100}
-              resizeMode='contain'
+              resizeMode="contain"
               source={require("../../assets/images/clearvuetext.png")}
-              alt='logo'
+              alt="logo"
             />
           </HStack>
           <VStack style={{ gap: 20 }}>
             <Controller
               control={control}
               rules={{
-                required: true,
+                required: true
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <LinearGradient
@@ -104,30 +100,30 @@ export default function TabOneScreen() {
                   <Input
                     style={{ borderColor: "transparent" }}
                     height={48}
-                    variant='outline'
-                    size='md'
+                    variant="outline"
+                    size="md"
                     isDisabled={false}
                     isInvalid={false}
                     isReadOnly={false}
                   >
                     <InputField
                       fontSize={14}
-                      color='#A5ADBE'
+                      color="#A5ADBE"
                       onChangeText={onChange}
                       value={value}
                       onBlur={onBlur}
-                      placeholder='Email'
+                      placeholder="Email"
                     />
                   </Input>
                 </LinearGradient>
               )}
-              name='email'
+              name="email"
             />
             {errors.email && <Text>This is required.</Text>}
             <Controller
               control={control}
               rules={{
-                required: true,
+                required: true
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <LinearGradient
@@ -136,8 +132,8 @@ export default function TabOneScreen() {
                 >
                   <Input
                     style={{ borderColor: "transparent" }}
-                    variant='outline'
-                    size='md'
+                    variant="outline"
+                    size="md"
                     height={48}
                     isDisabled={false}
                     isInvalid={false}
@@ -145,16 +141,16 @@ export default function TabOneScreen() {
                   >
                     <InputField
                       fontSize={14}
-                      color='#A5ADBE'
+                      color="#A5ADBE"
                       onChangeText={onChange}
                       value={value}
                       onBlur={onBlur}
-                      placeholder='Password'
+                      placeholder="Password"
                     />
                   </Input>
                 </LinearGradient>
               )}
-              name='password'
+              name="password"
             />
             {errors.password && <Text>This is required.</Text>}
 
@@ -164,13 +160,13 @@ export default function TabOneScreen() {
             >
               <Button
                 height={48}
-                variant='outline'
+                variant="outline"
                 style={{ borderColor: "transparent" }}
                 onPress={handleSubmit(handleSignIn)}
                 sx={{
                   ":hover": {
-                    bg: "transparent",
-                  },
+                    bg: "transparent"
+                  }
                 }}
               >
                 <ButtonText style={{ color: "white" }}>LOGIN </ButtonText>
@@ -183,13 +179,13 @@ export default function TabOneScreen() {
             >
               <Button
                 height={48}
-                variant='outline'
+                variant="outline"
                 style={{ borderColor: "transparent" }}
                 onPress={handleSubmit(handleSignUp)}
                 sx={{
                   ":hover": {
-                    bg: "transparent",
-                  },
+                    bg: "transparent"
+                  }
                 }}
               >
                 <ButtonText style={{ color: "white" }}>SIGN UP </ButtonText>
@@ -197,7 +193,7 @@ export default function TabOneScreen() {
             </LinearGradient>
           </VStack>
         </Box>
-        <Box alignItems='center' marginBottom={100}>
+        <Box alignItems="center" marginBottom={100}>
           <Text fontSize={12}>Powered by</Text>
           <Text fontSize={12}>Global Procurement Group</Text>
         </Box>

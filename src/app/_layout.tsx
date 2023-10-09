@@ -10,7 +10,7 @@ import {
   GluestackUIProvider,
   Text,
   Theme,
-  View,
+  View
 } from "@gluestack-ui/themed";
 import { config } from "../../ gluestack-ui.config";
 import { useAuth } from "../hooks/useAuth";
@@ -25,12 +25,12 @@ import { toastConfig } from "../utils/config/toaster.config";
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+  ErrorBoundary
 } from "expo-router";
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(auth)",
+  initialRouteName: "(auth)"
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -39,7 +39,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     Rubik: require("../assets/fonts/Rubik-VariableFont_wght.ttf"),
-    ...FontAwesome.font,
+    ...FontAwesome.font
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -70,8 +70,7 @@ export function FallBack(props: any) {
 }
 
 function RootLayoutNav() {
-  const { user } = useAuth();
-  console.log("layour uswer", user);
+  // const { user } = useAuth();
 
   return (
     <GluestackUIProvider config={config}>
@@ -80,20 +79,16 @@ function RootLayoutNav() {
           <Stack
             screenOptions={{
               contentStyle: {
-                overflow: "hidden",
+                overflow: "hidden"
               },
+              headerShown: false
             }}
           >
-            {user ? (
-              <Stack.Screen
-                name='(app)'
-                options={{
-                  headerShown: false,
-                }}
-              />
-            ) : (
-              <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-            )}
+            {/* {user ? ( */}
+            <Stack.Screen name="(app)" />
+            {/* ) : ( */}
+            <Stack.Screen name="(auth)" />
+            {/* )} */}
           </Stack>
         </Provider>
       </AuthContextProvider>

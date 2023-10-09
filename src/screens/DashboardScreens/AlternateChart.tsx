@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 // import * as React from 'react'
-import { PanResponder, Dimensions, View, ScrollView } from 'react-native';
-import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts';
+import { PanResponder, Dimensions, View, ScrollView } from "react-native";
+import { AreaChart, XAxis, YAxis } from "react-native-svg-charts";
 import {
   Circle,
   Defs,
@@ -11,26 +11,26 @@ import {
   Path,
   Rect,
   Stop,
-  Text as SvgText,
-} from 'react-native-svg';
-import * as shape from 'd3-shape';
+  Text as SvgText
+} from "react-native-svg";
+import * as shape from "d3-shape";
 import {
   longSampleDateList,
-  longSamplePriceList,
-} from '../../utils/sampleData';
+  longSamplePriceList
+} from "../../utils/sampleData";
 
-import { COLORS } from '../../constants';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { CarouselGesture, AdaptSize } from '../../utils/helpers';
-import * as Haptics from 'expo-haptics';
-import { Vibration, Platform } from 'react-native';
+import { COLORS } from "../../constants";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { CarouselGesture, AdaptSize } from "../../utils/helpers";
+import * as Haptics from "expo-haptics";
+import { Vibration, Platform } from "react-native";
 export default InteractiveChart;
-let DeviceWidth = Dimensions.get('window').width;
+let DeviceWidth = Dimensions.get("window").width;
 
 function InteractiveChart({ chartColor }: any) {
   const apx = (size = 0) => {
-    let width = Dimensions.get('window').width;
-    return Platform.OS === 'web' ? size : (width / 750) * size;
+    let width = Dimensions.get("window").width;
+    return Platform.OS === "web" ? size : (width / 750) * size;
   };
 
   //stores current scrollview offset
@@ -76,16 +76,20 @@ function InteractiveChart({ chartColor }: any) {
     />
   );
 
-  const CustomGradient = () => (
-    <Defs key="gradient">
-      <LinearGradient id="gradient" x1="0" y="1" x2="0" y2="1">
-        {/* <Stop offset="0%" stopColor="rgb(134, 65, 244)" /> */}
-        {/* <Stop offset="100%" stopColor="rgb(66, 194, 244)" /> */}
-        <Stop offset="0" stopColor={chartColor} stopOpacity="0.1" />
-        <Stop offset="0.3" stopColor={chartColor} stopOpacity="0" />
-      </LinearGradient>
-    </Defs>
-  );
+  const CustomGradient = () => {
+    console.log("colors:", chartColor);
+
+    return (
+      <Defs key="gradient">
+        <LinearGradient id={chartColor} x1="0" y="1" x2="0" y2="1">
+          {/* <Stop offset="0%" stopColor="rgb(134, 65, 244)" /> */}
+          {/* <Stop offset="100%" stopColor="rgb(66, 194, 244)" /> */}
+          <Stop offset="0" stopColor={chartColor} stopOpacity="0.1" />
+          <Stop offset="0.3" stopColor={chartColor} stopOpacity="0" />
+        </LinearGradient>
+      </Defs>
+    );
+  };
 
   const Tooltip = ({ x, y, ticks }: any) => {
     //prevent tooltip from going out of graph
@@ -148,13 +152,13 @@ function InteractiveChart({ chartColor }: any) {
     .activateAfterLongPress(CarouselGesture() ? 500 : 0)
     .runOnJS(true)
     .onStart((e) => {
-      if (Platform.OS === 'android') {
+      if (Platform.OS === "android") {
         // Vibration.vibrate();
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
       }
 
       updatePosition(e.x);
-      console.log(e.x, e.x, 'Begin');
+      console.log(e.x, e.x, "Begin");
       return true;
     })
     .onUpdate((e) => {
@@ -165,25 +169,25 @@ function InteractiveChart({ chartColor }: any) {
   return (
     <View
       style={{
-        backgroundColor: 'transparent',
-        alignItems: 'stretch',
+        backgroundColor: "transparent",
+        alignItems: "stretch"
       }}
     >
       <View
         style={{
-          flexDirection: 'row',
-          height: AdaptSize(200),
+          flexDirection: "row",
+          height: AdaptSize(200)
         }}
       >
         <GestureDetector gesture={pan}>
           <View style={{ flex: 1 }}>
             <AreaChart
-              style={{ flex: 1, minWidth: '100%', alignItems: 'stretch' }}
+              style={{ flex: 1, minWidth: "100%", alignItems: "stretch" }}
               data={priceList}
               // curve={shape.curveNatural}
               curve={shape.curveMonotoneX}
               contentInset={{ ...verticalContentInset }}
-              svg={{ fill: 'url(#gradient)' }}
+              svg={{ fill: `url(#${chartColor})` }}
             >
               <CustomLine />
               <CustomGradient />
@@ -192,25 +196,25 @@ function InteractiveChart({ chartColor }: any) {
 
             <XAxis
               style={{
-                alignSelf: 'stretch',
-                minWidth: '100%',
+                alignSelf: "stretch",
+                minWidth: "100%",
                 //   width: DeviceWidth - 30,
                 height: apx(60),
                 borderColor: chartColor,
-                borderTopWidth: 0.5,
+                borderTopWidth: 0.5
               }}
               numberOfTicks={4}
               data={priceList}
               formatLabel={(value, index) => dateList[value]}
               contentInset={{
-                left: apx(50),
+                left: apx(50)
                 // right: apx(130),
               }}
               svg={{
-                fontFamily: 'Rubik',
+                fontFamily: "Rubik",
                 fontSize: apx(20),
-                fill: '#617485',
-                y: apx(20),
+                fill: "#617485",
+                y: apx(20)
               }}
             />
           </View>

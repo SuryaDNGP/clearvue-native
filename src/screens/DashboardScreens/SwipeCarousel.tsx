@@ -1,28 +1,28 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from "react";
 // import InteractiveChart from './charts';
-import InteractiveChart from './AlternateChart';
-import { COLORS } from '../../constants';
-import { Dimensions } from 'react-native';
-import Swiper from 'react-native-web-swiper';
-import { Platform } from 'react-native';
-import { TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { CarouselGesture } from '../../utils/helpers';
-import { Box } from '@gluestack-ui/themed';
-import { ProgressCircle } from 'react-native-svg-charts';
-import { Text, View } from '@gluestack-ui/themed';
+import InteractiveChart from "./AlternateChart";
+import { COLORS } from "../../constants";
+import { Dimensions } from "react-native";
+import Swiper from "react-native-web-swiper";
+import { Platform } from "react-native";
+import { TouchableOpacity, StyleSheet, Image } from "react-native";
+import { CarouselGesture } from "../../utils/helpers";
+import { Box } from "@gluestack-ui/themed";
+import { ProgressCircle } from "react-native-svg-charts";
+import { Text, View } from "@gluestack-ui/themed";
 import Animated, {
   useSharedValue,
   withSequence,
   withTiming,
   Easing,
-  Keyframe,
-} from 'react-native-reanimated';
+  Keyframe
+} from "react-native-reanimated";
 
 const data = [
-  { chartColor: COLORS.chartLinePink, bgColor: '#b91e7a66' },
-  { chartColor: COLORS.chartLineBlue, bgColor: '#0C66B166' },
-  { chartColor: COLORS.chartLinePurple, bgColor: '#9368FB66' },
-  { chartColor: COLORS.chartLineRed, bgColor: '#F44C4566' },
+  { chartColor: COLORS.chartLinePink, bgColor: "#b91e7a66" },
+  { chartColor: COLORS.chartLineBlue, bgColor: "#0C66B166" },
+  { chartColor: COLORS.chartLinePurple, bgColor: "#9368FB66" },
+  { chartColor: COLORS.chartLineRed, bgColor: "#F44C4566" }
 ];
 // const DeviceWidth = Dimensions.get('window').width;
 const AnimatedSwiper = Animated.createAnimatedComponent(View);
@@ -35,7 +35,7 @@ const SwipeCarousel = () => {
       withTiming(0),
       withTiming(1, {
         duration: 2000,
-        easing: Easing.out(Easing.cubic),
+        easing: Easing.out(Easing.cubic)
       })
     );
   };
@@ -54,8 +54,8 @@ const SwipeCarousel = () => {
           prevPos: false,
           nextPos: false,
           dotsTouchable: true,
-          dotsPos: 'bottom',
-          dotActiveStyle: { backgroundColor: COLORS.grey },
+          dotsPos: "bottom",
+          dotActiveStyle: { backgroundColor: COLORS.grey }
         }}
       >
         {data.map((item, index) => (
@@ -94,19 +94,19 @@ export default SwipeCarousel;
 
 const fadeIn = new Keyframe({
   0: {
-    opacity: 0,
+    opacity: 0
   },
   100: {
-    opacity: 1,
-  },
+    opacity: 1
+  }
 });
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   heading: {
-    fontSize: 44,
+    fontSize: 44
   },
   wrapper: {},
   slide: {},
@@ -114,12 +114,12 @@ const styles = StyleSheet.create({
   slide2: {},
   slide3: {},
   text: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold"
   },
   img: {
     width: 310,
-    height: 350,
-  },
+    height: 350
+  }
 });
