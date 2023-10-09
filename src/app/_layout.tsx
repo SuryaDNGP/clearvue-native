@@ -1,8 +1,8 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useFonts } from "expo-font";
-import { ErrorBoundaryProps, SplashScreen, Stack } from "expo-router";
-import { useEffect } from "react";
-import { Drawer } from "expo-router/drawer";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useFonts } from 'expo-font';
+import { ErrorBoundaryProps, SplashScreen, Stack, router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Drawer } from 'expo-router/drawer';
 import {
   Avatar,
   AvatarFallbackText,
@@ -11,26 +11,26 @@ import {
   Text,
   Theme,
   View,
-} from "@gluestack-ui/themed";
-import { config } from "../../ gluestack-ui.config";
-import { useAuth } from "../hooks/useAuth";
-import AuthContextProvider from "../../src/components/context/AuthContext";
-import { Provider } from "react-redux";
-import { store } from "../../src/store/store";
-import { registerRootComponent } from "expo";
-import Toast from "react-native-toast-message";
-import { ExpoRoot } from "expo-router";
-import { toastConfig } from "../utils/config/toaster.config";
+} from '@gluestack-ui/themed';
+import { config } from '../../ gluestack-ui.config';
+import AuthContextProvider from '../../src/components/context/AuthContext';
+import { Provider } from 'react-redux';
+import { store } from '../../src/store/store';
+import Toast from 'react-native-toast-message';
+import { toastConfig } from '../utils/config/toaster.config';
+import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
+import app from '../utils/config/firebase';
+import { showToast } from '../components/shared/Toaster';
 // import ErrorBoundary from 'react-native-error-boundary';
 
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
-} from "expo-router";
+} from 'expo-router';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(auth)",
+  initialRouteName: '(auth)',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -38,7 +38,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    Rubik: require("../assets/fonts/Rubik-VariableFont_wght.ttf"),
+    Rubik: require('../assets/fonts/Rubik-VariableFont_wght.ttf'),
     ...FontAwesome.font,
   });
 
@@ -60,19 +60,19 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-export function FallBack(props: any) {
-  return (
-    <View>
-      <Text>Hello</Text>
-      <Text>{props.error.toString()}</Text>
-    </View>
-  );
-}
-
 function RootLayoutNav() {
-  const { user } = useAuth();
-  console.log("layour uswer", user);
-
+  const [user, setUser] = useState<User | null>(null);
+  const auth = getAuth(app);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      console.log('Root user', user);
+      setUser(user);
+      if (user) {
+        router.replace('/dashboard');
+        showToast('success', 'Logged in !!');
+      }
+    });
+  }, []);
   return (
     <GluestackUIProvider config={config}>
       <AuthContextProvider>
@@ -80,19 +80,19 @@ function RootLayoutNav() {
           <Stack
             screenOptions={{
               contentStyle: {
-                overflow: "hidden",
+                overflow: 'hidden',
               },
             }}
           >
             {user ? (
               <Stack.Screen
-                name='(app)'
+                name="(app)"
                 options={{
                   headerShown: false,
                 }}
               />
             ) : (
-              <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
             )}
           </Stack>
         </Provider>
