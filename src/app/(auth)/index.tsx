@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect } from "react";
 import {
   Text,
   Box,
@@ -8,7 +8,7 @@ import {
   ButtonText,
   Image,
   HStack,
-  VStack
+  VStack,
 } from "@gluestack-ui/themed";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useForm, Controller } from "react-hook-form";
@@ -16,23 +16,26 @@ import { LinearGradient } from "expo-linear-gradient";
 import Spinner from "react-native-loading-spinner-overlay";
 import {
   useFirebaseLoginMutation,
-  useFirebaseRegisterMutation
+  useFirebaseRegisterMutation,
 } from "../../store/services/fbAuthAPI";
+
 export default function TabOneScreen() {
-  const [firebaseLogin, data, isLoading, error] = useFirebaseLoginMutation();
-  const [firebaseRegister] = useFirebaseRegisterMutation();
+  const [firebaseLogin, { data, isLoading: loginLoading, error }] =
+    useFirebaseLoginMutation();
+  const [firebaseRegister, { isLoading: registerLoading }] =
+    useFirebaseRegisterMutation();
 
   const {
     control,
     handleSubmit,
     reset,
     formState,
-    formState: { errors, isSubmitSuccessful }
+    formState: { errors, isSubmitSuccessful },
   } = useForm({
     defaultValues: {
       email: "",
-      password: ""
-    }
+      password: "",
+    },
   });
 
   useEffect(() => {
@@ -42,30 +45,25 @@ export default function TabOneScreen() {
   }, [formState, reset]);
 
   const handleSignIn = async (data: any) => {
-    // loginUserAction(data)
-    // loginUser(data);
-    // signInAction(data).then(() => {
-    //   isLoggedIn();
-    // });
-    // console.log('1.', currentUser);
     await firebaseLogin(data);
-    // setLoading(true);
   };
   console.log("new:", data);
 
-  const handleSignUp = (data: any) => {
-    // signUpAction(data);
-    firebaseLogin(data);
+  const handleSignUp = async (data: any) => {
+    await firebaseRegister(data).then(() => {
+      console.log("Registered");
+    });
   };
 
   return (
     <SafeAreaView
       style={{
         backgroundColor: "#000",
-        flex: 1
+        flex: 1,
       }}
     >
-      {isLoading && <Spinner visible={isLoading} size={50} />}
+      {loginLoading ||
+        (registerLoading && <Spinner visible={loginLoading} size={50} />)}
       <Box height="$full" margin={24} justifyContent="space-between">
         <Box marginTop={130}>
           <HStack style={{ justifyContent: "center", marginBottom: 50 }}>
@@ -80,7 +78,7 @@ export default function TabOneScreen() {
             <Controller
               control={control}
               rules={{
-                required: true
+                required: true,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <LinearGradient
@@ -113,7 +111,7 @@ export default function TabOneScreen() {
             <Controller
               control={control}
               rules={{
-                required: true
+                required: true,
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <LinearGradient
@@ -155,8 +153,8 @@ export default function TabOneScreen() {
                 onPress={handleSubmit(handleSignIn)}
                 sx={{
                   ":hover": {
-                    bg: "transparent"
-                  }
+                    bg: "transparent",
+                  },
                 }}
               >
                 <ButtonText style={{ color: "white" }}>LOGIN </ButtonText>
@@ -174,8 +172,8 @@ export default function TabOneScreen() {
                 onPress={handleSubmit(handleSignUp)}
                 sx={{
                   ":hover": {
-                    bg: "transparent"
-                  }
+                    bg: "transparent",
+                  },
                 }}
               >
                 <ButtonText style={{ color: "white" }}>SIGN UP </ButtonText>

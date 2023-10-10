@@ -10,10 +10,10 @@ import {
   GluestackUIProvider,
   Text,
   Theme,
-  View
+  View,
 } from "@gluestack-ui/themed";
 import { config } from "../../ gluestack-ui.config";
-import AuthContextProvider from "../../src/components/context/AuthContext";
+
 import { Provider } from "react-redux";
 import { store } from "../../src/store/store";
 import Toast from "react-native-toast-message";
@@ -25,12 +25,12 @@ import { showToast } from "../components/shared/Toaster";
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary
+  ErrorBoundary,
 } from "expo-router";
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(auth)"
+  initialRouteName: "(auth)",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -39,7 +39,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     Rubik: require("../assets/fonts/Rubik-VariableFont_wght.ttf"),
-    ...FontAwesome.font
+    ...FontAwesome.font,
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -69,35 +69,34 @@ function RootLayoutNav() {
       setUser(user);
       if (user) {
         router.replace("/dashboard");
-        showToast("success", "Logged in !!");
+        showToast("success", "Logged in !!", "toast");
       }
     });
   }, []);
   return (
     <GluestackUIProvider config={config}>
-      <AuthContextProvider>
-        <Provider store={store}>
-          <Stack
-            screenOptions={{
-              contentStyle: {
-                overflow: "hidden"
-              },
-              headerShown: false
-            }}
-          >
-            {user ? (
-              <Stack.Screen
-                name="(app)"
-                options={{
-                  headerShown: false
-                }}
-              />
-            ) : (
-              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            )}
-          </Stack>
-        </Provider>
-      </AuthContextProvider>
+      <Provider store={store}>
+        <Stack
+          screenOptions={{
+            contentStyle: {
+              overflow: "hidden",
+            },
+            headerShown: false,
+          }}
+        >
+          {user ? (
+            <Stack.Screen
+              name="(app)"
+              options={{
+                headerShown: false,
+              }}
+            />
+          ) : (
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          )}
+        </Stack>
+      </Provider>
+
       <Toast config={toastConfig} />
     </GluestackUIProvider>
   );
