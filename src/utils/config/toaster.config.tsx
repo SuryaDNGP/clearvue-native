@@ -1,10 +1,11 @@
-import { Box, Text } from "@gluestack-ui/themed";
+import { Box, CheckCircleIcon, CloseIcon, Text } from "@gluestack-ui/themed";
 import { Platform } from "react-native";
 import Toast, {
   BaseToast,
   ErrorToast,
   InfoToast
 } from "react-native-toast-message";
+import { Icon } from "@gluestack-ui/themed";
 const toastConfig = {
   /*
       Overwrite 'success' type,
@@ -13,12 +14,20 @@ const toastConfig = {
   success: (props) => (
     <BaseToast
       {...props}
+      renderLeadingIcon={() => {
+        return (
+          <Box ml={Platform.OS === "web" ? 55 : 33}>
+            <Icon as={CheckCircleIcon} size="xl" color="#fff" />
+          </Box>
+        );
+      }}
       style={[
         {
           borderLeftColor: "#69C779",
-          backgroundColor: "#3a3a3a"
+          backgroundColor: "#3a3a3a",
+          alignItems: "center"
         },
-        Platform.OS == "web" ? { width: 250 } : { maxWidth: 300 }
+        Platform.OS == "web" ? { width: 250 } : { maxWidth: 200 }
       ]}
       contentContainerStyle={{
         paddingHorizontal: 10
@@ -26,8 +35,6 @@ const toastConfig = {
       text1Style={{
         fontSize: 15,
         fontWeight: "400",
-        display: "flex",
-        justifyContent: "center",
         color: "#fff"
       }}
     />
@@ -35,16 +42,24 @@ const toastConfig = {
   /*
       Overwrite 'error' type,
       by modifying the existing `ErrorToast` component
-    */
+      */
   error: (props) => (
     <ErrorToast
       {...props}
+      renderLeadingIcon={() => {
+        return (
+          <Box ml={Platform.OS === "web" ? 55 : 35}>
+            <Icon as={CloseIcon} size="xl" color="#fff" />
+          </Box>
+        );
+      }}
       style={[
         {
           borderLeftColor: "#FE6301",
+          alignItems: "center",
           backgroundColor: "#3a3a3a"
         },
-        Platform.OS == "web" ? { width: 250 } : { maxWidth: 300 }
+        Platform.OS == "web" ? { width: 250 } : { maxWidth: 200 }
       ]}
       contentContainerStyle={{
         paddingHorizontal: 10
@@ -52,8 +67,6 @@ const toastConfig = {
       text1Style={{
         fontSize: 15,
         fontWeight: "400",
-        display: "flex",
-        justifyContent: "center",
         color: "#fff"
       }}
     />

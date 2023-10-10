@@ -19,7 +19,8 @@ import {
   useFirebaseRegisterMutation
 } from "../../store/services/fbAuthAPI";
 export default function TabOneScreen() {
-  const [firebaseLogin, data, isLoading, error] = useFirebaseLoginMutation();
+  const [firebaseLogin, { data, isLoading, error }] =
+    useFirebaseLoginMutation();
   const [firebaseRegister] = useFirebaseRegisterMutation();
 
   const {
@@ -51,7 +52,7 @@ export default function TabOneScreen() {
     await firebaseLogin(data);
     // setLoading(true);
   };
-  console.log("new:", data);
+  console.log("new:", data, isLoading, error);
 
   const handleSignUp = (data: any) => {
     // signUpAction(data);

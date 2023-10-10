@@ -70,6 +70,8 @@ function RootLayoutNav() {
       if (user) {
         router.replace("/dashboard");
         showToast("success", "Logged in !!");
+      } else if (!user) {
+        showToast("error", "Invalid user");
       }
     });
   }, []);

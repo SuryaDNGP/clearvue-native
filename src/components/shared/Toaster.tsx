@@ -1,12 +1,11 @@
+import { Platform } from "react-native";
 import Toast from "react-native-toast-message";
 
-export function showToast(type: string, text: string, position: string) {
-  console.log(position);
-
+export function showToast(type: string, text: string) {
   Toast.show({
     type: type,
     text1: text,
-    position: position
+    position: Platform.OS === "web" ? "top" : "bottom"
   });
 }
 

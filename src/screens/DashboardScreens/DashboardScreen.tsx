@@ -186,11 +186,7 @@ export default function DashboardScreen() {
                 }
               }}
               onPress={() => {
-                showToast(
-                  "success",
-                  "Device added",
-                  Platform.OS === "web" ? "top" : "bottom"
-                );
+                showToast("success", "Device added");
               }}
             >
               <ButtonIcon color="white" as={AddIcon} mr="$2" />
