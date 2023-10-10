@@ -6,10 +6,10 @@ import { TouchableOpacity } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItem,
-  DrawerItemList,
+  DrawerItemList
 } from "@react-navigation/drawer";
 import { useFirebaseLogoutMutation } from "../../store/services/fbAuthAPI";
-import { useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 const CustomDrawer = (props: any) => {
   const router = useRouter();
   const [firebaseLogout, { isLoading: logoutLoading }] =
@@ -38,13 +38,13 @@ const ScreensLayout = () => {
         headerShadowVisible: false,
         headerStyle: {
           backgroundColor: "#000",
-          height: 100,
+          height: 100
         },
         drawerStyle: {
-          backgroundColor: "#000",
+          backgroundColor: "#000"
         },
         drawerLabelStyle: {
-          color: "#fff",
+          color: "#fff"
         },
         drawerActiveBackgroundColor: "#98989837",
         headerTitle: "",
@@ -53,7 +53,7 @@ const ScreensLayout = () => {
           <Box ml={20}>
             <Text
               sx={{
-                color: "#fff",
+                color: "#fff"
               }}
               size="md"
             >
@@ -61,7 +61,7 @@ const ScreensLayout = () => {
             </Text>
             <Text
               sx={{
-                color: "#B7B7B7",
+                color: "#B7B7B7"
               }}
               size="sm"
             >
@@ -75,7 +75,7 @@ const ScreensLayout = () => {
               <AvatarFallbackText>Surya D</AvatarFallbackText>
             </Avatar>
           </TouchableOpacity>
-        ),
+        )
       })}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >

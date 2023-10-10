@@ -5,11 +5,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "backgroundColor": "#222222",
-    "icon": "./src/assets/images/clearvuelogo.png",
+    "icon": "./src/assets/images/clearvueimg.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./src/assets/images/clearvuetext.png",
+      "image": "./src/assets/images/clearvueimg.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
@@ -20,7 +20,7 @@
     "android": {
       "permissions": ["VIBRATE"],
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/clearvuelogo.png",
+        "foregroundImage": "./src/assets/images/clearvueimg.png",
         "backgroundColor": "#000000"
       }
     },

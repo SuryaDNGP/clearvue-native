@@ -68,10 +68,8 @@ function RootLayoutNav() {
       console.log("Root user", user);
       setUser(user);
       if (user) {
-        router.replace("/dashboard");
+        router.replace("/(app)/dashboard");
         showToast("success", "Logged in !!");
-      } else if (!user) {
-        showToast("error", "Invalid user");
       }
     });
   }, []);

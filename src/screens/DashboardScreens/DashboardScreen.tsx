@@ -12,7 +12,6 @@ import {
 } from "@gluestack-ui/themed";
 import { View } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
-import { AuthContext } from "../../components/context/AuthContext";
 import { COLORS } from "../../constants";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AdaptSize, CustomSize } from "../../utils/helpers";
@@ -159,11 +158,11 @@ export default function DashboardScreen() {
               </Text>
             </TouchableOpacity>
           </HStack>
-          <FlatList
-            style={{ marginTop: 12 }}
-            data={deviceList}
-            renderItem={({ item }) => <DeviceDetailShared device={item} />}
-          />
+          {deviceList.map((item, ind) => (
+            <Box key={ind}>
+              <DeviceDetailShared device={item} />
+            </Box>
+          ))}
         </Box>
 
         <Box alignItems="center" marginBottom={16} marginTop={8}>

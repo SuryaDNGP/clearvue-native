@@ -6,6 +6,7 @@ import {
   signOut,
 } from "firebase/auth";
 import app from "../../utils/config/firebase";
+import { showToast } from "../../components/shared/Toaster";
 const auth = getAuth(app);
 export const fbAuthApi = createApi({
   reducerPath: "fbAuthApi",
@@ -23,6 +24,7 @@ export const fbAuthApi = createApi({
           return { data: res.user };
         } catch (error) {
           console.log("login error", error);
+          showToast('error','Invalid User')
           return { error };
         }
       },

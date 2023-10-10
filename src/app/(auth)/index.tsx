@@ -62,15 +62,16 @@ export default function TabOneScreen() {
         flex: 1
       }}
     >
-      {loginLoading ||
-        (registerLoading && <Spinner visible={loginLoading} size={50} />)}
+      {(loginLoading || registerLoading) && (
+        <Spinner visible={loginLoading} size={50} />
+      )}
       <Box height="$full" margin={24} justifyContent="space-between">
         <Box marginTop={130}>
           <HStack style={{ justifyContent: "center", marginBottom: 50 }}>
             <Image
               height={100}
               resizeMode="contain"
-              source={require("../../assets/images/clearvuetext.png")}
+              source={require("../../assets/images/clearvueimg.png")}
               alt="logo"
             />
           </HStack>
