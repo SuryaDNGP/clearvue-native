@@ -47,7 +47,7 @@ export default function TabOneScreen() {
   const handleSignIn = async (data: any) => {
     await firebaseLogin(data);
   };
-  console.log("new:", data, isLoading, error);
+  console.log("new:", data, loginLoading, error);
 
   const handleSignUp = async (data: any) => {
     await firebaseRegister(data).then(() => {
