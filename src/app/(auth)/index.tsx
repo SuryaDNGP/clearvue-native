@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect } from "react";
 import {
   Text,
   Box,
@@ -18,10 +18,12 @@ import {
   useFirebaseLoginMutation,
   useFirebaseRegisterMutation
 } from "../../store/services/fbAuthAPI";
+
 export default function TabOneScreen() {
-  const [firebaseLogin, { data, isLoading, error }] =
+  const [firebaseLogin, { data, isLoading: loginLoading, error }] =
     useFirebaseLoginMutation();
-  const [firebaseRegister] = useFirebaseRegisterMutation();
+  const [firebaseRegister, { isLoading: registerLoading }] =
+    useFirebaseRegisterMutation();
 
   const {
     control,
@@ -43,20 +45,14 @@ export default function TabOneScreen() {
   }, [formState, reset]);
 
   const handleSignIn = async (data: any) => {
-    // loginUserAction(data)
-    // loginUser(data);
-    // signInAction(data).then(() => {
-    //   isLoggedIn();
-    // });
-    // console.log('1.', currentUser);
     await firebaseLogin(data);
-    // setLoading(true);
   };
   console.log("new:", data, isLoading, error);
 
-  const handleSignUp = (data: any) => {
-    // signUpAction(data);
-    firebaseLogin(data);
+  const handleSignUp = async (data: any) => {
+    await firebaseRegister(data).then(() => {
+      console.log("Registered");
+    });
   };
 
   return (
@@ -66,7 +62,8 @@ export default function TabOneScreen() {
         flex: 1
       }}
     >
-      {isLoading && <Spinner visible={isLoading} size={50} />}
+      {loginLoading ||
+        (registerLoading && <Spinner visible={loginLoading} size={50} />)}
       <Box height="$full" margin={24} justifyContent="space-between">
         <Box marginTop={130}>
           <HStack style={{ justifyContent: "center", marginBottom: 50 }}>

@@ -13,7 +13,7 @@ import {
   View
 } from "@gluestack-ui/themed";
 import { config } from "../../ gluestack-ui.config";
-import AuthContextProvider from "../../src/components/context/AuthContext";
+
 import { Provider } from "react-redux";
 import { store } from "../../src/store/store";
 import Toast from "react-native-toast-message";
@@ -77,29 +77,28 @@ function RootLayoutNav() {
   }, []);
   return (
     <GluestackUIProvider config={config}>
-      <AuthContextProvider>
-        <Provider store={store}>
-          <Stack
-            screenOptions={{
-              contentStyle: {
-                overflow: "hidden"
-              },
-              headerShown: false
-            }}
-          >
-            {user ? (
-              <Stack.Screen
-                name="(app)"
-                options={{
-                  headerShown: false
-                }}
-              />
-            ) : (
-              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            )}
-          </Stack>
-        </Provider>
-      </AuthContextProvider>
+      <Provider store={store}>
+        <Stack
+          screenOptions={{
+            contentStyle: {
+              overflow: "hidden"
+            },
+            headerShown: false
+          }}
+        >
+          {user ? (
+            <Stack.Screen
+              name="(app)"
+              options={{
+                headerShown: false
+              }}
+            />
+          ) : (
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          )}
+        </Stack>
+      </Provider>
+
       <Toast config={toastConfig} />
     </GluestackUIProvider>
   );

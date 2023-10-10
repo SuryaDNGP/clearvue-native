@@ -11,12 +11,12 @@ import {
   Path,
   Rect,
   Stop,
-  Text as SvgText
+  Text as SvgText,
 } from "react-native-svg";
 import * as shape from "d3-shape";
 import {
   longSampleDateList,
-  longSamplePriceList
+  longSamplePriceList,
 } from "../../utils/sampleData";
 
 import { COLORS } from "../../constants";
@@ -170,13 +170,13 @@ function InteractiveChart({ chartColor }: any) {
     <View
       style={{
         backgroundColor: "transparent",
-        alignItems: "stretch"
+        alignItems: "stretch",
       }}
     >
       <View
         style={{
           flexDirection: "row",
-          height: AdaptSize(200)
+          height: AdaptSize(200),
         }}
       >
         <GestureDetector gesture={pan}>
@@ -201,20 +201,20 @@ function InteractiveChart({ chartColor }: any) {
                 //   width: DeviceWidth - 30,
                 height: apx(60),
                 borderColor: chartColor,
-                borderTopWidth: 0.5
+                borderTopWidth: 0.5,
               }}
               numberOfTicks={4}
               data={priceList}
               formatLabel={(value, index) => dateList[value]}
               contentInset={{
-                left: apx(50)
+                left: apx(50),
                 // right: apx(130),
               }}
               svg={{
                 fontFamily: "Rubik",
                 fontSize: apx(20),
                 fill: "#617485",
-                y: apx(20)
+                y: apx(20),
               }}
             />
           </View>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 // import * as React from 'react'
 import {
   PanResponder,
@@ -9,8 +9,8 @@ import {
   ScrollView,
   Pressable,
   Vibration,
-} from 'react-native';
-import { AreaChart, XAxis, YAxis } from 'react-native-svg-charts';
+} from "react-native";
+import { AreaChart, XAxis, YAxis } from "react-native-svg-charts";
 import {
   Circle,
   Defs,
@@ -21,33 +21,33 @@ import {
   Rect,
   Stop,
   Text as SvgText,
-} from 'react-native-svg';
-import * as shape from 'd3-shape';
+} from "react-native-svg";
+import * as shape from "d3-shape";
 import {
   longSampleDateList,
   longSamplePriceList,
   sampleDateList,
   samplePriceList,
-} from '../../utils/sampleData';
-import { Platform } from 'react-native';
-import { COLORS } from '../../constants';
+} from "../../utils/sampleData";
+import { Platform } from "react-native";
+import { COLORS } from "../../constants";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-} from 'react-native-reanimated';
+} from "react-native-reanimated";
 import {
   Gesture,
   GestureDetector,
   LongPressGestureHandler,
-} from 'react-native-gesture-handler';
-import * as Haptics from 'expo-haptics';
+} from "react-native-gesture-handler";
+import * as Haptics from "expo-haptics";
 export default InteractiveChart;
-let DeviceWidth = Dimensions.get('window').width;
+let DeviceWidth = Dimensions.get("window").width;
 
 function InteractiveChart({ chartColor }: any) {
   const apx = (size = 0) => {
-    let width = Dimensions.get('window').width;
-    return Platform.OS === 'web' ? size : (width / 750) * size;
+    let width = Dimensions.get("window").width;
+    return Platform.OS === "web" ? size : (width / 750) * size;
     // return size;
     // return (width / 750) * size;
   };
@@ -224,7 +224,7 @@ function InteractiveChart({ chartColor }: any) {
     .runOnJS(true)
     .onBegin((e) => {
       updatePosition(e.x);
-      console.log(e.x, e.x, 'Begin');
+      console.log(e.x, e.x, "Begin");
       return true;
     })
     .onUpdate((e) => {
@@ -235,19 +235,19 @@ function InteractiveChart({ chartColor }: any) {
   return (
     <View
       style={{
-        backgroundColor: 'transparent',
-        alignItems: 'stretch',
+        backgroundColor: "transparent",
+        alignItems: "stretch",
       }}
     >
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
           // width: DeviceWidth,
           // width: '100%',
           // paddingRight: 20,
           // height: apx(400),
           height: 400,
-          alignSelf: 'stretch',
+          alignSelf: "stretch",
         }}
       >
         {/* <YAxis
@@ -272,7 +272,7 @@ function InteractiveChart({ chartColor }: any) {
                 // curve={shape.curveNatural}
                 curve={shape.curveMonotoneX}
                 contentInset={{ ...verticalContentInset }}
-                svg={{ fill: 'url(#gradient)' }}
+                svg={{ fill: "url(#gradient)" }}
               >
                 <CustomLine />
                 {/* <CustomGrid /> */}
@@ -283,7 +283,7 @@ function InteractiveChart({ chartColor }: any) {
 
               <XAxis
                 style={{
-                  alignSelf: 'stretch',
+                  alignSelf: "stretch",
                   // marginTop: apx(57),
                   // width: '100%',
                   // width: apx(globalChartWidth),
@@ -302,7 +302,7 @@ function InteractiveChart({ chartColor }: any) {
                 }}
                 svg={{
                   fontSize: 16,
-                  fill: '#617485',
+                  fill: "#617485",
                   y: apx(20),
                   // originY: 30,
                 }}

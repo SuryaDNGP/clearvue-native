@@ -1,24 +1,29 @@
-import { Box, Text, Avatar, AvatarFallbackText } from '@gluestack-ui/themed';
-import { Drawer } from 'expo-router/drawer';
-import React, { useContext } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { AuthContext } from '../../components/context/AuthContext';
+import { Box, Text, Avatar, AvatarFallbackText } from "@gluestack-ui/themed";
+import { Drawer } from "expo-router/drawer";
+import React from "react";
+import { TouchableOpacity } from "react-native";
+
 import {
   DrawerContentScrollView,
   DrawerItem,
   DrawerItemList,
-} from '@react-navigation/drawer';
-
+} from "@react-navigation/drawer";
+import { useFirebaseLogoutMutation } from "../../store/services/fbAuthAPI";
+import { useRouter } from "expo-router";
 const CustomDrawer = (props: any) => {
-  const { signOutAction } = useContext(AuthContext);
+  const router = useRouter();
+  const [firebaseLogout, { isLoading: logoutLoading }] =
+    useFirebaseLogoutMutation();
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
       <DrawerItem
-        labelStyle={{ color: 'white' }}
+        labelStyle={{ color: "white" }}
         label="Logout"
         onPress={() => {
-          signOutAction();
+          firebaseLogout().then(() => {
+            router.replace("/(auth)/");
+          });
         }}
       />
     </DrawerContentScrollView>
@@ -32,23 +37,23 @@ const ScreensLayout = () => {
       screenOptions={({ navigation }) => ({
         headerShadowVisible: false,
         headerStyle: {
-          backgroundColor: '#000',
+          backgroundColor: "#000",
           height: 100,
         },
         drawerStyle: {
-          backgroundColor: '#000',
+          backgroundColor: "#000",
         },
         drawerLabelStyle: {
-          color: '#fff',
+          color: "#fff",
         },
-        drawerActiveBackgroundColor: '#98989837',
-        headerTitle: '',
-        drawerPosition: 'right',
+        drawerActiveBackgroundColor: "#98989837",
+        headerTitle: "",
+        drawerPosition: "right",
         headerLeft: () => (
           <Box ml={20}>
             <Text
               sx={{
-                color: '#fff',
+                color: "#fff",
               }}
               size="md"
             >
@@ -56,7 +61,7 @@ const ScreensLayout = () => {
             </Text>
             <Text
               sx={{
-                color: '#B7B7B7',
+                color: "#B7B7B7",
               }}
               size="sm"
             >
@@ -74,7 +79,7 @@ const ScreensLayout = () => {
       })}
       drawerContent={(props) => <CustomDrawer {...props} />}
     >
-      <Drawer.Screen name="dashboard" options={{ drawerLabel: 'Dashboard' }} />
+      <Drawer.Screen name="dashboard" options={{ drawerLabel: "Dashboard" }} />
       <Drawer.Screen name="home" />
     </Drawer>
   );
